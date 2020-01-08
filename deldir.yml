@@ -1,0 +1,31 @@
+---
+#ansible playbook to create a directory with a name set as today's date,
+#download files into directory and export list of files into text file,
+#then delete the directory
+
+- hosts: localhost
+  become: yes
+  tasks:
+
+  - name: Create directory with today's date
+    file:
+      path: /home/nathan/{{ ansible_date_time.date }}
+      state: directory
+      mode: '0777'
+
+  - name: Create file to export download list to
+    file:
+      path: /home/nathan/download-list.txt
+      state: touch
+      mode: '0766'
+
+  - name: Download files to directory and export list
+    shell: |
+      wget --no-parent https://github.com/nikhiljohn10/ddns-on-cloudflare/blob/master/README.md -P /home/nathan/{{ ansible_date_time.date }}
+      wget --no-parent https://github.com/nikhiljohn10/ddns-on-cloudflare/blob/master/LICENSE -P /home/nathan/{{ ansible_date_time.date }}
+      ls -lah1 /home/nathan/{{ ansible_date_time.date }} >> /home/nathan/download-list.txt
+
+  - name: Deleting directory
+    file:
+      path: /home/nathan/{{ ansible_date_time.date }}
+      state: absent
