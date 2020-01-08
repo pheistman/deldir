@@ -23,7 +23,7 @@
     shell: |
       wget --no-parent https://github.com/nikhiljohn10/ddns-on-cloudflare/blob/master/README.md -P /home/nathan/{{ ansible_date_time.date }}
       wget --no-parent https://github.com/nikhiljohn10/ddns-on-cloudflare/blob/master/LICENSE -P /home/nathan/{{ ansible_date_time.date }}
-      ls -lah1 /home/nathan/{{ ansible_date_time.date }} >> /home/nathan/download-list.txt
+      ls -lah /home/nathan/{{ ansible_date_time.date }} >> /home/nathan/download-list.txt
 
   - name: Deleting directory
     file:
